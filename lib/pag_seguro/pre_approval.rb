@@ -10,11 +10,11 @@ module PagSeguro
     attr_accessor :name, :details, :amount_per_payment, :period,
                   :day_of_week, :day_of_month, :day_of_year, :initial_date,
                   :final_date, :max_amount_per_period, :max_total_amount,
-                  :review_URL
+                  :review_URL, :charge
 
     attr_reader_as_digit :amount_per_payment, :max_amount_per_period, :max_total_amount
 
-    validates_presence_of :name, :period, :final_date, :max_total_amount, :max_amount_per_period
+    validates_presence_of :name, :period, :final_date, :max_total_amount, :max_amount_per_period, :charge
     validates_inclusion_of :period, in: PERIOD_TYPES
     validates_inclusion_of :day_of_week, in: DAYS_OF_WEEK, if: :weekly?
     validates_inclusion_of :day_of_month, in: (1..28), if: :monthly?
@@ -37,6 +37,7 @@ module PagSeguro
       @max_amount_per_period = options[:max_amount_per_period]
       @max_total_amount = options[:max_total_amount]
       @review_URL = options[:review_URL]
+      @charge = options[:charge]
     end
 
     def period
